@@ -48,7 +48,6 @@ boot_time_epoch_duration=$(echo $temp | awk '{print $2}')
 active_duration_seconds=$(( $curr_epoch_duration - $boot_time_epoch_duration ))
 echo "Time duration since last boot: $((${active_duration_seconds} / 3600)) hours: \
 $((${active_duration_seconds} % 3600 / 60)) minutes : $((${active_duration_seconds} % 3600 % 60)) seconds"
-
 # Display number of active processes
 # using "ps" to display process list only display the processes which are initiated as a part/on the WSL platform. Host windows processes are never recorded.
 # Would have appreciated if both windows and WSL stats were combined and provided. Windows support is not available now!
@@ -56,13 +55,23 @@ $((${active_duration_seconds} % 3600 / 60)) minutes : $((${active_duration_secon
 
 num_active_processes=$(ps -ef | wc -l)
 echo "Number of active processes: $(($num_active_processes - 3))"
-# Here 3 is subtracted to minus the count of ps, pipe and wc processes themselves.
+# Here 3 is subtracted to minus the count of ps, initial column name and one more row due to pipe or wc process.
 # These 3 processes are used in the first place to find the count of active processes.
 
 # Display list of active processes
 # only display the active processes which are initated in WSL platform and not the host Windows platform.
+echo ""
+echo "-------------------- PROCESS LIST -------------------"
 
+tmp=$(($num_active_processes - 3))
+for ((i = 1 ; i <= ($tmp - 2) ; i++));
+do
+    pid=$(ps -e | head -n $(($i + 1)) | tail -n 1 | awk '{print $1}')
+    pname=$(ps -e | head -n $(($i + 1)) | tail -n 1 | awk '{print $4}')
+    echo "Process id (PID): $pid           process name: $pname"
+done
 
+echo "-----------------------------------------------------"
 
 # TODO: Understand /proc/loadaverage and /proc/uptime
 
