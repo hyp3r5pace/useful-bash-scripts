@@ -26,3 +26,5 @@ done
 
 echo "------------------------------------------------------------------------------------------------------"
 
+# TODO: Have to generalize it on the basis of partition each system have
+
