@@ -74,7 +74,9 @@ done
 echo "-----------------------------------------------------"
 
 # TODO: Understand /proc/loadaverage and /proc/uptime
-
-
+# TODO: system files for Cpu stats such  as temp,fan speed etc are not available for WSL.
+# Idea: Can use the windows system files to gather such data. Have to do a little research and figure out , if it is possible
+# problem: Various sensor informations are not supported by WSL (virtualized kernel). Windows might be doing that,so maybe to get that
+#      --> information in WSL,have to parse such system files in windows filesystem to scrap the data.
 echo ""
 echo "-----------------------------------------------------------------------------------------------------------"
